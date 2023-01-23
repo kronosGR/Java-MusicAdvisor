@@ -1,5 +1,7 @@
 package advisor;
 
+import com.beust.jcommander.*;
+
 import java.util.Scanner;
 import java.util.TreeSet;
 
@@ -12,7 +14,15 @@ public class Main {
 
     public static void main(String[] args) {
 
+        Server server = new Server();
         boolean active = true;
+
+        Args arguments = new Args();
+
+
+        JCommander.newBuilder().addObject(arguments)
+                .build()
+                .parse(args);
 
         while (active) {
             String choice = sc.nextLine();
@@ -26,7 +36,8 @@ public class Main {
                     featuredEndpoint();
                     break;
                 case "auth":
-                    authEndpoint();
+                    server.setAuthentication(arguments.getAccess());
+                    isAuthenticated = server.isAuthenticated();
                     break;
                 case "exit":
                     active = false;
