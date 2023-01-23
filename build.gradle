@@ -25,13 +25,13 @@ subprojects {
     repositories {
         mavenCentral()
         maven { url "https://packages.jetbrains.team/maven/p/academy/hyperskill-hspc" }
-        maven { url "https://jitpack.io" }
+		maven { url "https://jitpack.io" }
     }
 
     dependencies {
-        implementation group: 'com.beust', name: 'jcommander', version: '1.69'
-
         testImplementation 'com.github.hyperskill:hs-test:release-SNAPSHOT'
+        implementation 'com.google.code.gson:gson:+'
+        implementation group: 'com.beust', name: 'jcommander', version: '1.69'
     }
 
     configurations.all {

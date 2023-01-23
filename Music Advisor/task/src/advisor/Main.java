@@ -11,14 +11,13 @@ public class Main {
 
     private static boolean isAuthenticated = false;
 
+    static Args arguments = new Args();
+    static Server server;
 
     public static void main(String[] args) {
 
-        Server server = new Server();
+        server = new Server(arguments.getAccess(), arguments.getResource());
         boolean active = true;
-
-        Args arguments = new Args();
-
 
         JCommander.newBuilder().addObject(arguments)
                 .build()
@@ -36,7 +35,7 @@ public class Main {
                     featuredEndpoint();
                     break;
                 case "auth":
-                    server.setAuthentication(arguments.getAccess());
+                    server.setAuthentication();
                     isAuthenticated = server.isAuthenticated();
                     break;
                 case "exit":
@@ -51,11 +50,7 @@ public class Main {
             System.out.println("Please, provide access for application.");
             return;
         };
-        System.out.println("---NEW RELEASES---");
-        System.out.println("Mountains [Sia, Diplo, Labrinth]");
-        System.out.println("Runaway [Lil Peep]");
-        System.out.println("The Greatest Show [Panic! At The Disco]");
-        System.out.println("All Out Life [Slipknot]");
+        server.getNews();
     }
 
     private static void featuredEndpoint(){
@@ -70,9 +65,4 @@ public class Main {
         System.out.println("Songs to Sing in the Shower");
     }
 
-    private static void authEndpoint(){
-        System.out.println(AUTH_URL);
-        System.out.println("---SUCCESS---");
-        isAuthenticated = true;
-    }
 }

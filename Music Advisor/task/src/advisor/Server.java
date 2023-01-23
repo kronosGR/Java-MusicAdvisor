@@ -1,5 +1,7 @@
 package advisor;
 
+import advisor.Models.Song;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpServer;
@@ -10,10 +12,17 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class Server {
     String SERVER = "https://accounts.spotify.com";
+    String RESOURCE = "https://api.spotify.com";
     String AUTHORIZE = "/authorize";
+    String NEW = "/v1/browse/new-releases";
+    String FEATURED = "/v1/browse/featured-playlists";
+    String PLAYLIST = "/v1/browse/categories/";
     String TOKEN = "/api/token";
     String REDIRECT_URL = "http://localhost:8080";
     String CLIENT_ID = "afc222d2075c4e5083c715d5817967e4";
@@ -28,6 +37,13 @@ public class Server {
 
     boolean isAuthenticated = false;
 
+    public Server(String server, String resource) {
+        if (!Objects.isNull(server))
+            this.SERVER = server;
+        if (!Objects.isNull(resource))
+            this.RESOURCE = resource;
+    }
+
     public boolean isAuthenticated() {
         return isAuthenticated;
     }
@@ -36,8 +52,7 @@ public class Server {
         isAuthenticated = authenticated;
     }
 
-    public void setAuthentication(String server) {
-        SERVER = server;
+    public void setAuthentication() {
         // get the access code
         getCode();
 
@@ -63,15 +78,14 @@ public class Server {
         HttpClient httpClient = HttpClient.newBuilder().build();
         try {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response != null){
+            if (response != null) {
                 JsonObject jsonObject = JsonParser.parseString(response.body()).getAsJsonObject();
-                System.out.println(jsonObject);
                 ACCESS_TOKEN = jsonObject.get("access_token").getAsString();
             }
             System.out.println("response:");
-            System.out.println("{\"access_token\":\""+ACCESS_TOKEN+"\"}");
-            System.out.println("---SUCCESS---");
-            isAuthenticated=true;
+            System.out.println("{\"access_token\":\"" + ACCESS_TOKEN + "\"}");
+            System.out.println("Success!");
+            isAuthenticated = true;
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
@@ -91,7 +105,6 @@ public class Server {
                 String response;
                 if (result != null && result.contains("code")) {
                     ACCESS_CODE = result.substring(5);
-                    System.out.println(result);
                     System.out.println("code received");
                     response = "Got the code. Return back to your program.";
                 } else {
@@ -108,6 +121,69 @@ public class Server {
                 Thread.sleep(10);
             }
             server.stop(10);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void getNews() {
+        List<Song> songs = new ArrayList<>();
+        String response = sendRequestAndGetResponse(RESOURCE + NEW);
+
+        JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
+        JsonObject albums = jsonObject.getAsJsonObject("albums");
+
+        for(JsonElement object: albums.getAsJsonArray("items")){
+            Song tmpSong = new Song();
+
+            // add the name
+            StringBuilder artists = new StringBuilder("[");
+
+            for (JsonElement name : object.getAsJsonObject().getAsJsonArray("artists")) {
+                if (!artists.toString().endsWith("[")) {
+                    artists.append(", ");
+                }
+                artists.append(name.getAsJsonObject().get("name"));
+            }
+            tmpSong.setName(artists.append("]").toString().replaceAll("\"", ""));
+
+            // add the album
+            tmpSong.setAlbum(object.getAsJsonObject().get("name").toString().replaceAll("\"",""));
+
+            // add the link
+            tmpSong.setLink(object.getAsJsonObject().get("external_urls")
+                    .getAsJsonObject().get("spotify")
+                    .toString().replaceAll("\"", ""));
+
+            songs.add(tmpSong);
+        }
+
+        //build the string
+        StringBuilder result = new StringBuilder();
+        for (Song song : songs) {
+            result.append(song.getAlbum()).append("\n")
+                    .append(song.getName()).append("\n")
+                    .append(song.getLink()).append("\n")
+                    .append("\n");
+        }
+
+        System.out.println(result);
+    }
+
+    private String sendRequestAndGetResponse(String url) {
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+                .header("Authorization", "Bearer " + ACCESS_TOKEN)
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpClient httpClient = HttpClient.newBuilder().build();
+        try {
+            HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+            return httpResponse.body();
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
