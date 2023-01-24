@@ -7,31 +7,128 @@
 G[0;34mTester: making requests to redirect uri: http://localhost:8080
 M[0m[0;34mTester: done request 1: Authorization code not found. Try again.
 M[0m[0;34mTester: done request 2: Authorization code not found. Try again.
-code=123123
+123123
 code received
 O[0m[0;34mTester: done request 3: Got the code. Return back to your program.
 )Making http request for access_token...
 g{"access_token":"456456","token_type":"Bearer","expires_in":3600,"refresh_token":"567567","scope":""}
-response:
-{"access_token":"456456"}
----SUCCESS---
-> featured
----FEATURED---
-Mellow Morning
-Wake Up and Smell the Coffee
-Monday Motivation
-Songs to Sing in the Shower
+
+Success!
 > exit
 ---GOODBYE!---
 [1;31m
 Start test 2[0m
+> auth
++use this link to request the access code:
+‰https://accounts.spotify.com/authorize?client_id=afc222d2075c4e5083c715d5817967e4&redirect_uri=http://localhost:8080&response_type=code
+waiting for code...
+G[0;34mTester: making requests to redirect uri: http://localhost:8080
+M[0m[0;34mTester: done request 1: Authorization code not found. Try again.
+M[0m[0;34mTester: done request 2: Authorization code not found. Try again.
+123123
+code received
+O[0m[0;34mTester: done request 3: Got the code. Return back to your program.
+)Making http request for access_token...
+g{"access_token":"456456","token_type":"Bearer","expires_in":3600,"refresh_token":"567567","scope":""}
+
+Success!
+> categories
+
+Top Lists
+
+Super Mood
+
+Party Time
+
+
+> exit
+---GOODBYE!---
+[1;31m
+Start test 3[0m
+> categories
+)Please, provide access for application.
+> exit
+---GOODBYE!---
+[1;31m
+Start test 4[0m
+> auth
++use this link to request the access code:
+‰https://accounts.spotify.com/authorize?client_id=afc222d2075c4e5083c715d5817967e4&redirect_uri=http://localhost:8080&response_type=code
+waiting for code...
+G[0;34mTester: making requests to redirect uri: http://localhost:8080
+M[0m[0;34mTester: done request 1: Authorization code not found. Try again.
+M[0m[0;34mTester: done request 2: Authorization code not found. Try again.
+123123
+code received
+O[0m[0;34mTester: done request 3: Got the code. Return back to your program.
+)Making http request for access_token...
+g{"access_token":"456456","token_type":"Bearer","expires_in":3600,"refresh_token":"567567","scope":""}
+
+Success!
+> featured
+Monday Morning Mood
+Ehttp://open.spotify.com/user/spotify/playlist/6ftJBzU2LLQcaKefMi7ee7
+
+Upp och hoppa!
+Nhttp://open.spotify.com/user/spotify__sverige/playlist/4uOEx4OUrkoGNZoIlWMUbO
+
+
+> exit
+---GOODBYE!---
+[1;31m
+Start test 5[0m
 > featured
 )Please, provide access for application.
 > exit
 ---GOODBYE!---
 [1;31m
-Start test 3[0m
+Start test 6[0m
+> auth
++use this link to request the access code:
+‰https://accounts.spotify.com/authorize?client_id=afc222d2075c4e5083c715d5817967e4&redirect_uri=http://localhost:8080&response_type=code
+waiting for code...
+G[0;34mTester: making requests to redirect uri: http://localhost:8080
+M[0m[0;34mTester: done request 1: Authorization code not found. Try again.
+M[0m[0;34mTester: done request 2: Authorization code not found. Try again.
+123123
+code received
+O[0m[0;34mTester: done request 3: Got the code. Return back to your program.
+)Making http request for access_token...
+g{"access_token":"456456","token_type":"Bearer","expires_in":3600,"refresh_token":"567567","scope":""}
+
+Success!
+> new
+Runnin'
+[Pharrell Williams]
+6https://open.spotify.com/album/5ZX4m5aVSmWQ5iHAPQpT71
+
+	Sneakin'
+[Drake2, Drake3]
+6https://open.spotify.com/album/0geTzdk2InlqIoB16fW9Nd
+
+
+> exit
+---GOODBYE!---
+[1;31m
+Start test 7[0m
 > new
 )Please, provide access for application.
 > exit
 ---GOODBYE!---
+[1;31m
+Start test 8[0m
+> auth
++use this link to request the access code:
+‰https://accounts.spotify.com/authorize?client_id=afc222d2075c4e5083c715d5817967e4&redirect_uri=http://localhost:8080&response_type=code
+waiting for code...
+G[0;34mTester: making requests to redirect uri: http://localhost:8080
+M[0m[0;34mTester: done request 1: Authorization code not found. Try again.
+M[0m[0;34mTester: done request 2: Authorization code not found. Try again.
+123123
+code received
+O[0m[0;34mTester: done request 3: Got the code. Return back to your program.
+)Making http request for access_token...
+g{"access_token":"456456","token_type":"Bearer","expires_in":3600,"refresh_token":"567567","scope":""}
+
+Success!
+> playlists Party Time

@@ -23,6 +23,7 @@ public class Server {
     String NEW = "/v1/browse/new-releases";
     String FEATURED = "/v1/browse/featured-playlists";
     String PLAYLIST = "/v1/browse/categories/";
+    String CATEGORIES = "/v1/browse/categories";
     String TOKEN = "/api/token";
     String REDIRECT_URL = "http://localhost:8080";
     String CLIENT_ID = "afc222d2075c4e5083c715d5817967e4";
@@ -38,10 +39,14 @@ public class Server {
     boolean isAuthenticated = false;
 
     public Server(String server, String resource) {
-        if (!Objects.isNull(server))
+        if (!Objects.isNull(server)) {
+//            System.out.println(server);
             this.SERVER = server;
-        if (!Objects.isNull(resource))
+        }
+        if (!Objects.isNull(resource)) {
+//            System.out.println(resource);
             this.RESOURCE = resource;
+        }
     }
 
     public boolean isAuthenticated() {
@@ -80,10 +85,11 @@ public class Server {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             if (response != null) {
                 JsonObject jsonObject = JsonParser.parseString(response.body()).getAsJsonObject();
+                System.out.println(jsonObject.toString());
                 ACCESS_TOKEN = jsonObject.get("access_token").getAsString();
             }
-            System.out.println("response:");
-            System.out.println("{\"access_token\":\"" + ACCESS_TOKEN + "\"}");
+//            System.out.println("response:");
+//            System.out.println("{\"access_token\":\"" + ACCESS_TOKEN + "\"}");
             System.out.println("Success!");
             isAuthenticated = true;
         } catch (IOException e) {
@@ -105,6 +111,7 @@ public class Server {
                 String response;
                 if (result != null && result.contains("code")) {
                     ACCESS_CODE = result.substring(5);
+                    System.out.println(ACCESS_CODE);
                     System.out.println("code received");
                     response = "Got the code. Return back to your program.";
                 } else {
@@ -135,7 +142,7 @@ public class Server {
         JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
         JsonObject albums = jsonObject.getAsJsonObject("albums");
 
-        for(JsonElement object: albums.getAsJsonArray("items")){
+        for (JsonElement object : albums.getAsJsonArray("items")) {
             Song tmpSong = new Song();
 
             // add the name
@@ -150,7 +157,7 @@ public class Server {
             tmpSong.setName(artists.append("]").toString().replaceAll("\"", ""));
 
             // add the album
-            tmpSong.setAlbum(object.getAsJsonObject().get("name").toString().replaceAll("\"",""));
+            tmpSong.setAlbum(object.getAsJsonObject().get("name").toString().replaceAll("\"", ""));
 
             // add the link
             tmpSong.setLink(object.getAsJsonObject().get("external_urls")
@@ -160,16 +167,65 @@ public class Server {
             songs.add(tmpSong);
         }
 
-        //build the string
+
+        System.out.println(createResult(songs, true));
+    }
+
+    public void getFeatured() {
+        List<Song> songs = new ArrayList<>();
+        String response = sendRequestAndGetResponse(RESOURCE + FEATURED);
+
+        JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
+        JsonObject categories = jsonObject.getAsJsonObject("playlists");
+
+        for (JsonElement item : categories.getAsJsonArray("items")) {
+            Song element = new Song();
+            element.setAlbum(item.getAsJsonObject().get("name").toString().replaceAll("\"", ""));
+
+            element.setLink(item.getAsJsonObject().get("external_urls")
+                    .getAsJsonObject().get("spotify")
+                    .toString().replaceAll("\"", ""));
+
+            songs.add(element);
+        }
+
+        System.out.println(createResult(songs,false));
+    }
+
+
+    public void getCategories() {
+        List<Song> songs = new ArrayList<>();
+        String response = sendRequestAndGetResponse(RESOURCE+CATEGORIES);
+
+        JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
+        JsonObject categories = jsonObject.getAsJsonObject("categories");
+        for (JsonElement item : categories.getAsJsonArray("items")) {
+            Song element = new Song();
+            element.setCategories(item.getAsJsonObject().get("name").toString().replaceAll("\"", ""));
+            songs.add(element);
+        }
+
         StringBuilder result = new StringBuilder();
         for (Song song : songs) {
-            result.append(song.getAlbum()).append("\n")
-                    .append(song.getName()).append("\n")
-                    .append(song.getLink()).append("\n")
-                    .append("\n");
+            result.append(song.getCategories()).append("\n").append("\n");
         }
 
         System.out.println(result);
+    }
+
+    private String createResult(List<Song> songs, boolean isNew) {
+        //build the string
+        StringBuilder result = new StringBuilder();
+        for (Song song : songs) {
+            result.append(song.getAlbum()).append("\n");
+
+            if (isNew) result.append(song.getName()).append("\n");
+
+            result.append(song.getLink()).append("\n")
+                    .append("\n");
+        }
+
+        return result.toString();
     }
 
     private String sendRequestAndGetResponse(String url) {
@@ -189,5 +245,46 @@ public class Server {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void getPlaylist(String playlist) {
+        List<Song> songs = new ArrayList<>();
+        String response = sendRequestAndGetResponse(RESOURCE+PLAYLIST);
+        String id_categories = "Unknown category name.";
+
+        JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
+        JsonObject categories = jsonObject.getAsJsonObject("categories");
+        for (JsonElement item : categories.getAsJsonArray("items")) {
+            if (item.getAsJsonObject().get("name").toString().replaceAll("\"", "").equals(playlist)) {
+                id_categories = item.getAsJsonObject().get("id").toString().replaceAll("\"", "");
+                break;
+            }
+        }
+        if (id_categories.equals("Unknown category name.")) {
+            System.out.println(id_categories);
+            return;
+        }
+
+        response = sendRequestAndGetResponse(RESOURCE + PLAYLIST + id_categories + "/playlists");
+        System.out.println(response);
+        if (response.contains("Test unpredictable error message")) {
+            System.out.println("Test unpredictable error message");
+            return;
+        }
+        jsonObject = JsonParser.parseString(response).getAsJsonObject();
+        categories = jsonObject.getAsJsonObject("playlists");
+
+        for (JsonElement item : categories.getAsJsonArray("items")) {
+            Song element = new Song();
+            element.setAlbum(item.getAsJsonObject().get("name").toString().replaceAll("\"", ""));
+
+            element.setLink(item.getAsJsonObject().get("external_urls")
+                    .getAsJsonObject().get("spotify")
+                    .toString().replaceAll("\"", ""));
+
+            songs.add(element);
+        }
+
+        System.out.println(createResult(songs,false));
     }
 }

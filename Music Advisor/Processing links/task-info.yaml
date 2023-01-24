@@ -1199,5 +1199,18 @@ files:
   visible: true
   learner_created: true
 feedback_link: https://hyperskill.org/projects/62/stages/338/implement#comment
-status: Unchecked
+status: Failed
+feedback:
+  message: "Exception in test #8\n\njava.lang.RuntimeException: java.io.IOException:\
+    \ parsing HTTP/1.1 status line, receiving [Webpage not found!], parser state [STATUS_LINE]\n\
+    \tat advisor.Server.sendRequestAndGetResponse(Server.java:244)\n\tat advisor.Server.getPlaylist(Server.java:252)\n\
+    \tat advisor.Main.playlistEndpoint(Main.java:71)\n\tat advisor.Main.main(Main.java:56)\n\
+    \nPlease find below the output of your program during this failed test.\nNote\
+    \ that the &#39;&gt;&#39; character indicates the beginning of the input line.\n\
+    \n---\n\nArguments: -access http://127.0.0.1:45678 -resource http://127.0.0.1:56789\n\
+    \n&gt; auth\nuse this link to request the access code:\nhttps://accounts.spotify.com/authorize?client_id=afc222d2075c4e5083c715d5817967e4&amp;redirect_uri=http://localhost:8080&amp;response_type=code\n\
+    waiting for code...\n123123\ncode received\nMaking http request for access_token...\n\
+    {&quot;access_token&quot;:&quot;456456&quot;,&quot;token_type&quot;:&quot;Bearer&quot;,&quot;expires_in&quot;:3600,&quot;refresh_token&quot;:&quot;567567&quot;,&quot;scope&quot;:&quot;&quot;}\n\
+    Success!\n&gt; playlists Party Time"
+  time: Tue, 24 Jan 2023 19:26:20 UTC
 record: -1
