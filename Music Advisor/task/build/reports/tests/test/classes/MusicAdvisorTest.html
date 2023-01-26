@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">52.535s</div>
+<div class="counter">52.074s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,7 +79,7 @@
 </thead>
 <tr>
 <td class="success">start</td>
-<td class="success">52.535s</td>
+<td class="success">52.074s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -103,7 +103,6 @@ Making http request for access_token...
 {&quot;access_token&quot;:&quot;456456&quot;,&quot;token_type&quot;:&quot;Bearer&quot;,&quot;expires_in&quot;:3600,&quot;refresh_token&quot;:&quot;567567&quot;,&quot;scope&quot;:&quot;&quot;}
 Success!
 &gt; exit
----GOODBYE!---
 ?[1;31m
 Start test 2?[0m
 &gt; auth
@@ -121,22 +120,30 @@ Making http request for access_token...
 Success!
 &gt; categories
 Top Lists
+---PAGE 1 OF 3---
 
+&gt; next
 Super Mood
 
+---PAGE 2 OF 3---
+
+&gt; next
 Party Time
 
+---PAGE 3 OF 3---
 
-&gt; exit
----GOODBYE!---
+&gt; prev
+Super Mood
+
+---PAGE 2 OF 3---
+
+&gt; prev
+Top Lists
+
+---PAGE 1 OF 3---
+
 ?[1;31m
 Start test 3?[0m
-&gt; categories
-Please, provide access for application.
-&gt; exit
----GOODBYE!---
-?[1;31m
-Start test 4?[0m
 &gt; auth
 use this link to request the access code:
 https://accounts.spotify.com/authorize?client_id=afc222d2075c4e5083c715d5817967e4&amp;redirect_uri=http://localhost:8080&amp;response_type=code
@@ -153,21 +160,23 @@ Success!
 &gt; featured
 Monday Morning Mood
 http://open.spotify.com/user/spotify/playlist/6ftJBzU2LLQcaKefMi7ee7
+---PAGE 1 OF 2---
 
+&gt; next
 Upp och hoppa!
 http://open.spotify.com/user/spotify__sverige/playlist/4uOEx4OUrkoGNZoIlWMUbO
 
+---PAGE 2 OF 2---
+
+&gt; prev
+Monday Morning Mood
+http://open.spotify.com/user/spotify/playlist/6ftJBzU2LLQcaKefMi7ee7
+
+---PAGE 1 OF 2---
 
 &gt; exit
----GOODBYE!---
 ?[1;31m
-Start test 5?[0m
-&gt; featured
-Please, provide access for application.
-&gt; exit
----GOODBYE!---
-?[1;31m
-Start test 6?[0m
+Start test 4?[0m
 &gt; auth
 use this link to request the access code:
 https://accounts.spotify.com/authorize?client_id=afc222d2075c4e5083c715d5817967e4&amp;redirect_uri=http://localhost:8080&amp;response_type=code
@@ -185,22 +194,54 @@ Success!
 Runnin'
 [Pharrell Williams]
 https://open.spotify.com/album/5ZX4m5aVSmWQ5iHAPQpT71
+---PAGE 1 OF 2---
 
+&gt; prev
+No more pages
+&gt; next
 Sneakin'
-[Drake2, Drake3]
+[Drake2]
 https://open.spotify.com/album/0geTzdk2InlqIoB16fW9Nd
 
+---PAGE 2 OF 2---
+
+&gt; next
+No more pages
+&gt; prev
+Runnin'
+[Pharrell Williams]
+https://open.spotify.com/album/5ZX4m5aVSmWQ5iHAPQpT71
+
+---PAGE 1 OF 2---
 
 &gt; exit
----GOODBYE!---
-?[1;31m
-Start test 7?[0m
 &gt; new
-Please, provide access for application.
+Runnin'
+[Pharrell Williams]
+https://open.spotify.com/album/5ZX4m5aVSmWQ5iHAPQpT71
+---PAGE 1 OF 2---
+
+&gt; prev
+No more pages
+&gt; next
+Sneakin'
+[Drake2]
+https://open.spotify.com/album/0geTzdk2InlqIoB16fW9Nd
+
+---PAGE 2 OF 2---
+
+&gt; next
+No more pages
+&gt; prev
+Runnin'
+[Pharrell Williams]
+https://open.spotify.com/album/5ZX4m5aVSmWQ5iHAPQpT71
+
+---PAGE 1 OF 2---
+
 &gt; exit
----GOODBYE!---
 ?[1;31m
-Start test 8?[0m
+Start test 5?[0m
 &gt; auth
 use this link to request the access code:
 https://accounts.spotify.com/authorize?client_id=afc222d2075c4e5083c715d5817967e4&amp;redirect_uri=http://localhost:8080&amp;response_type=code
@@ -218,65 +259,21 @@ Success!
 http://127.0.0.1:56789/v1/browse/categories/party/playlists
 Noite Eletronica
 http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen
+---PAGE 1 OF 2---
 
+&gt; next
 Festa Indie
 http://open.spotify.com/user/spotifybrazilian/playlist/4HZh0C9y80GzHDbHZyX770
 
+---PAGE 2 OF 2---
 
-&gt; exit
----GOODBYE!---
-?[1;31m
-Start test 9?[0m
-&gt; playlists Party Time
-Please, provide access for application.
-&gt; exit
----GOODBYE!---
-?[1;31m
-Start test 10?[0m
-&gt; auth
-use this link to request the access code:
-https://accounts.spotify.com/authorize?client_id=afc222d2075c4e5083c715d5817967e4&amp;redirect_uri=http://localhost:8080&amp;response_type=code
-waiting for code...
-?[0;34mTester: making requests to redirect uri: http://localhost:8080
-?[0m?[0;34mTester: done request 1: Authorization code not found. Try again.
-?[0m?[0;34mTester: done request 2: Authorization code not found. Try again.
-123123
-code received
-?[0m?[0;34mTester: done request 3: Got the code. Return back to your program.
-Making http request for access_token...
-{&quot;access_token&quot;:&quot;456456&quot;,&quot;token_type&quot;:&quot;Bearer&quot;,&quot;expires_in&quot;:3600,&quot;refresh_token&quot;:&quot;567567&quot;,&quot;scope&quot;:&quot;&quot;}
-Success!
-&gt; playlists Top Lists
-http://127.0.0.1:56789/v1/browse/categories/toplists/playlists
-Test unpredictable error message
-&gt; exit
----GOODBYE!---
-?[1;31m
-Start test 11?[0m
-&gt; auth
-use this link to request the access code:
-https://accounts.spotify.com/authorize?client_id=afc222d2075c4e5083c715d5817967e4&amp;redirect_uri=http://localhost:8080&amp;response_type=code
-waiting for code...
-?[0;34mTester: making requests to redirect uri: http://localhost:8080
-?[0m?[0;34mTester: done request 1: Authorization code not found. Try again.
-?[0m?[0;34mTester: done request 2: Authorization code not found. Try again.
-123123
-code received
-?[0m?[0;34mTester: done request 3: Got the code. Return back to your program.
-Making http request for access_token...
-{&quot;access_token&quot;:&quot;456456&quot;,&quot;token_type&quot;:&quot;Bearer&quot;,&quot;expires_in&quot;:3600,&quot;refresh_token&quot;:&quot;567567&quot;,&quot;scope&quot;:&quot;&quot;}
-Success!
-&gt; playlists Party Time
-http://127.0.0.1:56789/v1/browse/categories/party/playlists
+&gt; prev
 Noite Eletronica
 http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen
 
-Festa Indie
-http://open.spotify.com/user/spotifybrazilian/playlist/4HZh0C9y80GzHDbHZyX770
-
+---PAGE 1 OF 2---
 
 &gt; exit
----GOODBYE!---
 </pre>
 </span>
 </div>
@@ -288,7 +285,7 @@ http://open.spotify.com/user/spotifybrazilian/playlist/4HZh0C9y80GzHDbHZyX770
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 7.3.3</a> at Jan 25, 2023, 11:36:05 AM</p>
+<a href="http://www.gradle.org">Gradle 7.3.3</a> at Jan 26, 2023, 7:48:47 PM</p>
 </div>
 </div>
 </body>

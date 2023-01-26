@@ -25,7 +25,7 @@ public class Main {
                 .build()
                 .parse(args);
 
-        server = new Server(arguments.getAccess(), arguments.getResource());
+        server = new Server(arguments.getAccess(), arguments.getResource() , arguments.getPage());
         boolean active = true;
 
         while (active) {
@@ -55,9 +55,14 @@ public class Main {
                 case "playlists":
                     playlistEndpoint(playlist);
                     break;
+                case "next":
+                    server.printNext();
+                    break;
+                case "prev":
+                    server.printPrev();
+                    break;
                 case "exit":
                     active = false;
-                    System.out.println("---GOODBYE!---");
                     break;
             }
         }

@@ -31,13 +31,21 @@ public class Server {
     String ACCESS_CODE = "";
     String ACCESS_TOKEN = "";
 
+    int PAGE = 5;
+    int startItem = 0;
+    int endItem = 0;
+    int totalItems = 0;
+    int totalPages = 0;
+    int currentPage = 0;
+    String[] items;
+
     String url = SERVER + AUTHORIZE + "?client_id=" + CLIENT_ID
             + "&redirect_uri=" + REDIRECT_URL
             + "&response_type=code";
 
     boolean isAuthenticated = false;
 
-    public Server(String server, String resource) {
+    public Server(String server, String resource, String showPerPage) {
         if (!Objects.isNull(server)) {
 //            System.out.println(server);
             this.SERVER = server;
@@ -45,6 +53,10 @@ public class Server {
         if (!Objects.isNull(resource)) {
 //            System.out.println(resource);
             this.RESOURCE = resource;
+        }
+
+        if (!Objects.isNull(showPerPage)) {
+            this.PAGE = Integer.parseInt(showPerPage);
         }
     }
 
@@ -167,7 +179,7 @@ public class Server {
         }
 
 
-        System.out.println(createResult(songs, true));
+        printPage(createResult(songs, true));
     }
 
     public void getFeatured() {
@@ -188,7 +200,7 @@ public class Server {
             songs.add(element);
         }
 
-        System.out.println(createResult(songs, false));
+        printPage(createResult(songs, false));
     }
 
 
@@ -209,7 +221,7 @@ public class Server {
             result.append(song.getCategories()).append("\n").append("\n");
         }
 
-        System.out.println(result);
+        printPage(result.toString());
     }
 
     private String createResult(List<Song> songs, boolean isNew) {
@@ -264,7 +276,7 @@ public class Server {
             System.out.println(id_categories);
             return;
         }
-        String url = RESOURCE + CATEGORIES + "/"+id_categories + "/playlists";
+        String url = RESOURCE + CATEGORIES + "/" + id_categories + "/playlists";
         System.out.println(url);
         response = sendRequestAndGetResponse(url);
         // System.out.println(response);
@@ -286,6 +298,61 @@ public class Server {
             songs.add(element);
         }
 
-        System.out.println(createResult(songs, false));
+        printPage(createResult(songs, false));
+    }
+
+    private void printPage(String page) {
+        startItem = 0;
+        endItem = 0;
+        items = page.split("\n\n");
+
+        // check for total pages
+        if (items.length %PAGE >0) totalPages = items.length / PAGE + 1;
+        else totalPages = totalPages = items.length / PAGE;
+
+        currentPage=1;
+
+        for (int i=0; i<PAGE;i++){
+            System.out.println(items[i]);
+        }
+        System.out.println("---PAGE " + currentPage+ " OF "+totalPages+"---");
+        System.out.println();
+    }
+    public void printNext(){
+        if (currentPage + 1 < totalPages) {
+            startItem = PAGE * currentPage;
+            endItem = startItem + PAGE;
+        } else if (currentPage + 1 == totalPages) {
+            startItem = PAGE * currentPage;
+            if (items.length % PAGE > 0) {
+                endItem = startItem + items.length % PAGE;
+            } else {
+                endItem = startItem + PAGE;
+            }
+        } else {
+            System.out.println("No more pages");
+            return;
+        }
+        for (int i = startItem ; i < endItem; i++) {
+            System.out.println(items[i] + "\n");
+        }
+        currentPage++;
+        System.out.println("---PAGE " + currentPage+ " OF "+totalPages+"---");
+        System.out.println();
+    }
+    public void printPrev() {
+        currentPage--;
+        if (currentPage > 0) {
+            startItem = startItem - PAGE;
+            endItem = startItem + PAGE;
+            for (int i = startItem; i < endItem; i++) {
+                System.out.println(items[i] + "\n");
+            }
+            System.out.println("---PAGE " + currentPage+ " OF "+totalPages+"---");
+            System.out.println();
+        } else {
+            currentPage++;
+            System.out.println("No more pages");
+        }
     }
 }

@@ -9,6 +9,9 @@ public class Args {
     @Parameter(names = {"-resource"})
     String resource;
 
+    @Parameter(names = {"-page"})
+    String page;
+
     public String getAccess() {
         return access;
     }
@@ -23,6 +26,14 @@ public class Args {
 
     public void setResource(String resource) {
         this.resource = resource;
+    }
+
+    public String getPage() {
+        return page;
+    }
+
+    public void setPage(String page) {
+        this.page = page;
     }
 }
 
